@@ -1,0 +1,52 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "airbnb-base"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+      "no-console": "warn",
+      "import/no-unresolved": 0,
+      "import/extensions": 0,
+      "no-unused-vars": ["warn", { "vars": "all", "args": "none", "ignoreRestSiblings": false }],
+      "no-useless-constructor": 1,
+      "no-empty-function": ["warn", { "allow": ["constructors"] }],
+      "arrow-parens": ["error", "as-needed"],
+      "import/prefer-default-export": 0,
+      "one-var": 0,
+      "one-var-declaration-per-line": 0,
+      "no-plusplus": 0,
+      "class-methods-use-this": 0,
+      "no-param-reassign": ["warn", { "props": false }],
+      "quotes": ["error", "double"],
+      "curly": ["error", "multi", "consistent"],
+      "function-call-argument-newline": ["error", "consistent"],
+      "function-paren-newline": ["error", "multiline-arguments"],
+      "nonblock-statement-body-position": ["warn", "beside", {
+        "overrides": { "for": "below", "while": "below" }
+      }],
+      "camelcase": "warn",
+      "no-underscore-dangle": "warn",
+      "max-len": ["warn", {"code": 120, "comments": 100, "ignoreRegExpLiterals": true, "ignorePattern": "^import"}],
+      "prefer-destructuring": ["warn", {
+        "array": true,
+        "object": true
+      }],
+      "array-element-newline": ["warn", "consistent"],
+      "comma-dangle": ["warn", "never"],
+      "dot-notation": ["warn", {"allowPattern": "^_[a-z]+$"}]
+    },
+    "ignorePatterns": ["**/nodemodules"],
+    "globals": {
+      "firebase": "readonly"
+    }
+}

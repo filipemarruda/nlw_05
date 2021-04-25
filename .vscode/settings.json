@@ -1,0 +1,22 @@
+{
+  "editor.tabSize": 2,
+  "files.eol": "\n",
+  "javascript.validate.enable": false,
+  "editor.rulers": [
+    100,
+    120
+  ],
+  "extensions.ignoreRecommendations": true,
+  "git.enableSmartCommit": true,
+  "files.associations": {
+    "*.ts": "typescript"
+  },
+  "typescript.validate.enable": true,
+  "editor.renderWhitespace": "boundary",
+  "git.ignoreLimitWarning": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "material-icon-theme.activeIconPack": "nest",
+  "discord.enabled": true,
+}
