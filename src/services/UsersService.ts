@@ -1,29 +1,27 @@
-import { getCustomRepository, Repository } from "typeorm";
+import { getCustomRepository } from "typeorm";
 import { User } from "../entities/User";
 import { UserNotFoundError } from "../errors/UserNotFoundError";
 import { UsersRepository } from "../repositories/UsersRepository";
 
 class UsersService {
-  private usersRepository: Repository<User>;
-
-  constructor() {
-    this.usersRepository = getCustomRepository(UsersRepository);
+  private get repository(): UsersRepository {
+    return getCustomRepository(UsersRepository);
   }
 
   async create(email: string): Promise<User> {
-    const userExists = await this.usersRepository.findOne({
+    const userExists = await this.repository.findOne({
       email
     });
     if (userExists) return userExists;
-    const user = this.usersRepository.create({
+    const user = this.repository.create({
       email
     });
-    await this.usersRepository.save(user);
+    await this.repository.save(user);
     return user;
   }
 
   async findByEmail(email: string): Promise<User> {
-    const user = await this.usersRepository.findOne({ email });
+    const user = await this.repository.findOne({ email });
     if (!user) throw new UserNotFoundError("User not found");
     return user;
   }

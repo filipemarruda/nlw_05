@@ -2,34 +2,30 @@ import { Request, Response } from "express";
 import { SettingsService } from "../services/SettingsService";
 
 class SettingsController {
-  private settingsService: SettingsService;
+  private service: SettingsService;
 
   constructor() {
-    this.settingsService = new SettingsService();
+    this.service = new SettingsService();
   }
 
-  async create(request: Request, response: Response): Promise<Response> {
-    const { chat, username } = request.body;
+  async create({ body: { chat, username } }: Request, response: Response): Promise<Response> {
     try {
-      const settings = await this.settingsService.create({ chat, username });
+      const settings = await this.service.create({ chat, username });
       return response.json(settings);
-    } catch (err) {
+    } catch ({ message }) {
       return response.status(400).json({
-        message: err.message
+        message
       });
     }
   }
 
-  async findByUsername(request: Request, response: Response): Promise<Response> {
-    const { username } = request.params;
-    const settings = await this.settingsService.findByUsername(username);
+  async findByUsername({ params: { username } }: Request, response: Response): Promise<Response> {
+    const settings = await this.service.findByUsername(username);
     return response.json(settings);
   }
 
-  async update(request: Request, response: Response): Promise<Response> {
-    const { username } = request.params;
-    const { chat } = request.body;
-    const settings = await this.settingsService.update(username, chat);
+  async update({ params: { username }, body: { chat } }: Request, response: Response): Promise<Response> {
+    const settings = await this.service.update(username, chat);
     return response.json(settings);
   }
 }

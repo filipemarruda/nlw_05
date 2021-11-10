@@ -3,21 +3,21 @@ import { UserNotFoundError } from "../errors/UserNotFoundError";
 import { UsersService } from "../services/UsersService";
 
 class UsersController {
-  private usersService: UsersService;
+  private service: UsersService;
 
   constructor() {
-    this.usersService = new UsersService();
+    this.service = new UsersService();
   }
 
-  async create(request: Request, response: Response): Promise<Response> {
-    const { email } = request.body;
+  async create({ body: { email } }: Request, response: Response): Promise<Response> {
     try {
-      const user = await this.usersService.findByEmail(email);
+      const user = await this.service.findByEmail(email);
       return response.json(user);
     } catch (err) {
+      const { message } = err;
       const status = err instanceof UserNotFoundError ? 404 : 400;
       return response.status(status).json({
-        message: err.message
+        message
       });
     }
   }

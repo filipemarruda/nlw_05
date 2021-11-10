@@ -1,4 +1,4 @@
-import { getCustomRepository, Repository } from "typeorm";
+import { getCustomRepository } from "typeorm";
 import { Setting } from "../entities/Setting";
 import { UserAlreadyExistisError } from "../errors/UserAlreadyExistisError";
 import { SettingsRepository } from "../repositories/SettingsRepository";
@@ -9,32 +9,30 @@ interface ISettingsCreate {
 }
 
 class SettingsService {
-  private settingsRepository: Repository<Setting>;
-
-  constructor() {
-    this.settingsRepository = getCustomRepository(SettingsRepository);
+  private get repository(): SettingsRepository {
+    return getCustomRepository(SettingsRepository);
   }
 
-  async create({ chat, username } :ISettingsCreate) {
-    const userAlreadyExistis = await this.settingsRepository.findOne({ username });
+  async create({ chat, username } :ISettingsCreate): Promise<Setting> {
+    const userAlreadyExistis = await this.repository.findOne({ username });
     if (userAlreadyExistis) throw new UserAlreadyExistisError("User already exists");
-    const settings = this.settingsRepository.create({
+    const settings = this.repository.create({
       chat,
       username
     });
-    await this.settingsRepository.save(settings);
+    await this.repository.save(settings);
     return settings;
   }
 
-  async findByUsername(username: string) {
-    const settings = await this.settingsRepository.findOne({
+  async findByUsername(username: string): Promise<Setting> {
+    const settings = await this.repository.findOne({
       username
     });
     return settings;
   }
 
-  async update(username: string, chat: boolean) {
-    await this.settingsRepository.createQueryBuilder()
+  async update(username: string, chat: boolean): Promise<void> {
+    await this.repository.createQueryBuilder()
       .update(Setting)
       .set({ chat })
       .where("username = :username", {
